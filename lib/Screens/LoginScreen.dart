@@ -53,7 +53,6 @@ class _LoginScreenState extends State<LoginScreen> {
         .ref("users/${loginEmail.replaceAll('@', '').replaceAll('.', '')}");
     DataSnapshot snapshot = await ref.get();
     data = jsonDecode(jsonEncode(snapshot.value));
-    print(data);
   }
 
   @override

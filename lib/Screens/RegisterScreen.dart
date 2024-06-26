@@ -48,11 +48,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> WriteData(String LoginEmail) async {
     DatabaseReference ref = FirebaseDatabase.instance
-        .ref("users/${LoginEmail.replaceAll('@', '').replaceAll('.', '')}");
+        .ref("Users/${LoginEmail.replaceAll('@', '').replaceAll('.', '')}");
 
     await ref.set({
       "name": name,
       "mobileNumber": mobileNumber,
+      "email": LoginEmail,
     });
   }
 

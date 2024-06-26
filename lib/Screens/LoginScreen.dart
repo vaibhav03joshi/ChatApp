@@ -50,9 +50,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> readData(String loginEmail) async {
     DatabaseReference ref = FirebaseDatabase.instance
-        .ref("users/${loginEmail.replaceAll('@', '').replaceAll('.', '')}");
+        .ref("Users/${loginEmail.replaceAll('@', '').replaceAll('.', '')}");
     DataSnapshot snapshot = await ref.get();
-    data = jsonDecode(jsonEncode(snapshot.value));
+    data = jsonDecode(jsonEncode(snapshot.value)) as Map<String, dynamic>;
   }
 
   @override

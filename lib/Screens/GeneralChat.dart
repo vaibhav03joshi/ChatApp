@@ -1,11 +1,11 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
 
 class GeneralChat extends StatefulWidget {
-  GeneralChat({required this.name, super.key});
+  GeneralChat({required this.name, required this.path, super.key});
   String name;
+  String path;
   @override
   State<GeneralChat> createState() => _GeneralChatState();
 }
@@ -16,15 +16,15 @@ class _GeneralChatState extends State<GeneralChat> {
   List<GeneralMessage> messagesList = [];
 
   Future<void> sendMessage(String name, String message) async {
-    DatabaseReference ref = FirebaseDatabase.instance
-        .ref("General/${DateTime.now().toString().replaceAll(".", "_")}");
+    DatabaseReference ref = FirebaseDatabase.instance.ref(
+        "${widget.path}/${DateTime.now().toString().replaceAll(".", "_")}");
     ref.set({
       name: message,
     });
   }
 
   void getMessages() async {
-    DatabaseReference ref = FirebaseDatabase.instance.ref("General/");
+    DatabaseReference ref = FirebaseDatabase.instance.ref(widget.path);
     DataSnapshot snapshot = await ref.get();
     if (snapshot.value != null) {
       final dataMap = Map<String, dynamic>.from(snapshot.value as Map);
@@ -47,7 +47,7 @@ class _GeneralChatState extends State<GeneralChat> {
   }
 
   void listenToMessages() {
-    DatabaseReference ref = FirebaseDatabase.instance.ref("General/");
+    DatabaseReference ref = FirebaseDatabase.instance.ref(widget.path);
     ref.onValue.listen((event) {
       final data = event.snapshot.value as Map?;
       if (data != null) {

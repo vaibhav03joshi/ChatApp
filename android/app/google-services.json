@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "152931878057",
+    "firebase_url": "https://chatapptask-43b29-default-rtdb.firebaseio.com",
+    "project_id": "chatapptask-43b29",
+    "storage_bucket": "chatapptask-43b29.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152931878057:android:c6fee677c09d7ebf51d5b8",
+        "android_client_info": {
+          "package_name": "com.example.Anshu.chat_app_task"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKj665ysSBb8M3amfUNIgIrivhHeH6GHA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

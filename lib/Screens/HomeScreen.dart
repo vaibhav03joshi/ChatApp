@@ -64,8 +64,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SafeArea(
-        child: Drawer(
+      drawer: Drawer(
+        child: SafeArea(
           child: Column(
             children: [
               Padding(

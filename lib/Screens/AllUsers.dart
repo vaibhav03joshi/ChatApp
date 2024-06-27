@@ -83,7 +83,11 @@ class _AllUsersState extends State<AllUsers> {
           },
           child: Row(
             children: [
-              Text(usersList[index].name),
+              Icon(Icons.person_add_alt_1_rounded),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(usersList[index].name),
+              ),
               Text("      " + usersList[index].email),
             ],
           ),

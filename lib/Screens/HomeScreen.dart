@@ -67,29 +67,69 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: Drawer(
         child: Column(
           children: [
-            Text(widget.name),
-            Text(widget.email),
-            Text(widget.number),
-            MaterialButton(
-              onPressed: () {
-                logout();
-              },
-              child: Text("Logout"),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Icon(Icons.person),
+                  Text(widget.name),
+                ],
+              ),
             ),
-            MaterialButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AllUsers(
-                      email: widget.email,
-                      name: widget.name,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Icon(Icons.email),
+                  Text(widget.email),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Icon(Icons.phone),
+                  Text(widget.number),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MaterialButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AllUsers(
+                        email: widget.email,
+                        name: widget.name,
+                      ),
                     ),
-                  ),
-                );
-              },
-              child: Text("All Users"),
-            )
+                  );
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.group_add),
+                    Text("All Users"),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MaterialButton(
+                onPressed: () {
+                  logout();
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.logout),
+                    Text("Logout"),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -110,7 +150,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             },
-            child: Text("General chat"),
+            child: Row(
+              children: [
+                Icon(Icons.group),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("General chat"),
+                ),
+              ],
+            ),
           ),
           Expanded(
             child: ListView.builder(
@@ -125,7 +173,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             path: "PersonalChat/${Contacts[index].value}/"),
                       ));
                 },
-                child: Text(Contacts[index].name),
+                child: Row(
+                  children: [
+                    Icon(Icons.person),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(Contacts[index].name),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

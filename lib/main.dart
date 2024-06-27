@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           ? HomeScreen(
               email: email,
               name: name,
-              number: name,
+              number: number,
             )
           : LoginScreen(),
     );
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
 }
 
 Map<String, dynamic> data = {};
-String email = "", password = "", name = "";
+String email = "", password = "", name = "", number = "";
 Future<bool> loadUser() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isLogin = prefs.getBool("isLogin") ?? false;
@@ -51,6 +51,8 @@ Future<bool> loadUser() async {
   password = prefs.getString("password") ?? "";
   email = prefs.getString("email") ?? "";
   name = prefs.getString("name") ?? "";
+  number = prefs.getString("number") ?? "";
+
   print(email);
   print(name);
   print(password);

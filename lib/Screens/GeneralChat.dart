@@ -69,98 +69,133 @@ class _GeneralChatState extends State<GeneralChat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("General Chat"),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: messagesList.length,
-              itemBuilder: (context, index) => Container(
-                child: GestureDetector(
-                  onLongPress: () {
-                    _editMessageController.text = messagesList[index].message!;
-                    if (widget.name != messagesList[index].sender) {
-                      return;
-                    }
-                    showDialog(
-                      context: context,
-                      builder: (context) => Dialog(
-                        child: Column(
-                          children: [
-                            TextField(
-                              controller: _editMessageController,
-                            ),
-                            Row(
-                              children: [
-                                MaterialButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("Cancel"),
-                                ),
-                                MaterialButton(
-                                  onPressed: () {
-                                    updateMessage(
-                                      messagesList[index].timStamp!,
-                                      _editMessageController.text,
-                                    );
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("Update"),
-                                ),
-                                MaterialButton(
-                                  onPressed: () {
-                                    deleteMessage(
-                                        messagesList[index].timStamp!);
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("Delete"),
-                                ),
-                              ],
-                            ),
-                          ],
+        appBar: AppBar(
+          title: Text("General Chat"),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: messagesList.length,
+                itemBuilder: (context, index) => Container(
+                  child: GestureDetector(
+                    onLongPress: () {
+                      _editMessageController.text =
+                          messagesList[index].message!;
+                      if (widget.name != messagesList[index].sender) {
+                        return;
+                      }
+                      showDialog(
+                        context: context,
+                        builder: (context) => Dialog(
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: _editMessageController,
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  MaterialButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Cancel"),
+                                  ),
+                                  MaterialButton(
+                                    onPressed: () {
+                                      updateMessage(
+                                        messagesList[index].timStamp!,
+                                        _editMessageController.text,
+                                      );
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Update"),
+                                  ),
+                                  MaterialButton(
+                                    onPressed: () {
+                                      deleteMessage(
+                                          messagesList[index].timStamp!);
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Delete"),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 5, left: 8),
+                      child: Row(
+                        children: [
+                          Text(
+                            messagesList[index].message!,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          Text(
+                            " -" + messagesList[index].sender!,
+                            style: TextStyle(fontSize: 8),
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        messagesList[index].message!,
-                        style: TextStyle(fontSize: 14),
-                      ),
-                      Text(
-                        " -" + messagesList[index].sender!,
-                        style: TextStyle(fontSize: 8),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          TextField(
-            controller: _textController,
-            onSubmitted: (yo) {
-              sendMessage(widget.name, _textController.text);
-              _textController.clear();
-            },
-          ),
-          IconButton(
-            onPressed: () {
-              if (_textController.text.isNotEmpty) {
-                sendMessage(widget.name, _textController.text);
-                _textController.clear();
-              }
-            },
-            icon: Icon(CupertinoIcons.up_arrow),
-          )
-        ],
-      ),
-    );
+            Row(
+              children: [
+                Flexible(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: TextFormField(
+                      controller: _textController,
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                      decoration: InputDecoration(
+                        hintText: 'Type your message here...',
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    String message = _textController.text.trim();
+                    if (message.isNotEmpty) {
+                      sendMessage(widget.name, _textController.text);
+                      print('Message sent: $message');
+
+                      _textController.clear();
+                    }
+                  },
+                  icon: Icon(Icons.send),
+                  label: Text('SEND'),
+                  style: ElevatedButton.styleFrom(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ));
   }
 }
 

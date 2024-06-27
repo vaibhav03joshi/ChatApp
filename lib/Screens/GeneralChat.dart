@@ -89,45 +89,61 @@ class _GeneralChatState extends State<GeneralChat> {
                       showDialog(
                         context: context,
                         builder: (context) => Dialog(
-                          child: Column(
-                            children: [
-                              TextField(
-                                controller: _editMessageController,
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  MaterialButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text("Cancel"),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 16),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  child: TextField(
+                                    controller: _editMessageController,
+                                    maxLines:
+                                        null, // Allow unlimited lines of text
+                                    textAlignVertical: TextAlignVertical
+                                        .top, // Start text from the top
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: 'Edit your message...',
+                                    ),
                                   ),
-                                  MaterialButton(
-                                    onPressed: () {
-                                      updateMessage(
-                                        messagesList[index].timStamp!,
-                                        _editMessageController.text,
-                                      );
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text("Update"),
-                                  ),
-                                  MaterialButton(
-                                    onPressed: () {
-                                      deleteMessage(
-                                          messagesList[index].timStamp!);
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text("Delete"),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("Cancel"),
+                                    ),
+                                    SizedBox(width: 15),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        updateMessage(
+                                          messagesList[index].timStamp!,
+                                          _editMessageController.text,
+                                        );
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("Update"),
+                                    ),
+                                    SizedBox(width: 15),
+                                    TextButton(
+                                      onPressed: () {
+                                        deleteMessage(
+                                            messagesList[index].timStamp!);
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("Delete"),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -136,13 +152,22 @@ class _GeneralChatState extends State<GeneralChat> {
                       padding: const EdgeInsets.only(top: 5, left: 8),
                       child: Row(
                         children: [
-                          Text(
-                            messagesList[index].message!,
-                            style: TextStyle(fontSize: 18),
+                          Expanded(
+                            child: Text(
+                              messagesList[index].message!,
+                              style: TextStyle(fontSize: 18),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 10,
+                            ),
                           ),
-                          Text(
-                            " -" + messagesList[index].sender!,
-                            style: TextStyle(fontSize: 8),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              " -" + messagesList[index].sender!,
+                              style: TextStyle(fontSize: 8),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 10,
+                            ),
                           ),
                         ],
                       ),

@@ -64,73 +64,75 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Icon(Icons.person),
-                  Text(widget.name),
-                ],
+      drawer: SafeArea(
+        child: Drawer(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.person),
+                    Text(widget.name),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Icon(Icons.email),
-                  Text(widget.email),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.email),
+                    Text(widget.email),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Icon(Icons.phone),
-                  Text(widget.number),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.phone),
+                    Text(widget.number),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MaterialButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AllUsers(
-                        email: widget.email,
-                        name: widget.name,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: MaterialButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AllUsers(
+                          email: widget.email,
+                          name: widget.name,
+                        ),
                       ),
-                    ),
-                  );
-                },
-                child: Row(
-                  children: [
-                    Icon(Icons.group_add),
-                    Text("All Users"),
-                  ],
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.group_add),
+                      Text("All Users"),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MaterialButton(
-                onPressed: () {
-                  logout();
-                },
-                child: Row(
-                  children: [
-                    Icon(Icons.logout),
-                    Text("Logout"),
-                  ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: MaterialButton(
+                  onPressed: () {
+                    logout();
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout),
+                      Text("Logout"),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       appBar: AppBar(

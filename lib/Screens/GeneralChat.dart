@@ -44,6 +44,11 @@ class _GeneralChatState extends State<GeneralChat> {
             messagesList.add(messageObj);
           });
         });
+        messagesList.sort((a, b) {
+          DateTime dateA = DateTime.parse(a.timStamp!.split('_').first);
+          DateTime dateB = DateTime.parse(b.timStamp!.split('_').first);
+          return dateA.compareTo(dateB);
+        });
         setState(() {}); // Refresh the UI with new messages
       }
     });
@@ -146,8 +151,10 @@ class _GeneralChatState extends State<GeneralChat> {
           ),
           IconButton(
             onPressed: () {
-              sendMessage(widget.name, _textController.text);
-              _textController.clear();
+              if (_textController.text.isNotEmpty) {
+                sendMessage(widget.name, _textController.text);
+                _textController.clear();
+              }
             },
             icon: Icon(CupertinoIcons.up_arrow),
           )

@@ -28,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
         data["name"],
         credential.user!.email!,
         data["mobileNumber"],
+        password,
       );
       // ignore: use_build_context_synchronously
       Navigator.pushReplacement(

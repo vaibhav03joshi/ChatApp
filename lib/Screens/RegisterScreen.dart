@@ -25,10 +25,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
       await WriteData(credential.user!.email!);
       PrefsFunction().setInitialPrefs(
-        name,
-        credential.user!.email!,
-        mobileNumber,
-      );
+          name, credential.user!.email!, mobileNumber, password);
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(

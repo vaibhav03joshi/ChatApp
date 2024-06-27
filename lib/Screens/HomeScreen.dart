@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:chat_app_task/Functions/PrefsFunction.dart';
 import 'package:chat_app_task/Screens/AllUsers.dart';
 import 'package:chat_app_task/Screens/GeneralChat.dart';
@@ -23,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     getContacts();
+    print(widget.email);
     super.initState();
   }
 
@@ -30,8 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
     DatabaseReference ref = FirebaseDatabase.instance.ref(
         "Users/${widget.email.replaceAll('@', '').replaceAll('.', '')}/Contacts/");
     DataSnapshot snapshot = await ref.get();
-    var data = snapshot.value as Map<String, dynamic>?;
-    data?.forEach((key, value) async {
+    Map<String, dynamic> data =
+        jsonDecode(jsonEncode(snapshot.value)) as Map<String, dynamic>;
+    data.forEach((key, value) async {
       await getContactsInformation(key, value);
     });
   }
@@ -39,9 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> getContactsInformation(String username, String value) async {
     DatabaseReference ref = FirebaseDatabase.instance.ref("Users/${username}");
     DataSnapshot snapshot = await ref.get();
-    var data = snapshot.value as Map<String, dynamic>?;
-    UserData userData = new UserData(
-        data?["name"], data?["email"], data?["mobileNumber"], value);
+    Map<String, dynamic> data =
+        jsonDecode(jsonEncode(snapshot.value)) as Map<String, dynamic>;
+    UserData userData =
+        new UserData(data["name"], data["email"], data["mobileNumber"], value);
     Contacts.add(userData);
     setState(() {});
   }

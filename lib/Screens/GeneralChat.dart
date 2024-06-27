@@ -12,6 +12,7 @@ class GeneralChat extends StatefulWidget {
 
 class _GeneralChatState extends State<GeneralChat> {
   TextEditingController _textController = TextEditingController();
+  TextEditingController _editMessageController = TextEditingController();
   Map<String, Map<String, dynamic>> data = {};
   List<GeneralMessage> messagesList = [];
 
@@ -21,23 +22,6 @@ class _GeneralChatState extends State<GeneralChat> {
     ref.set({
       name: message,
     });
-  }
-
-  void getMessages() async {
-    DatabaseReference ref = FirebaseDatabase.instance.ref(widget.path);
-    DataSnapshot snapshot = await ref.get();
-    if (snapshot.value != null) {
-      final dataMap = Map<String, dynamic>.from(snapshot.value as Map);
-      dataMap.forEach((timestamp, messageMap) {
-        final messageData = Map<String, dynamic>.from(messageMap);
-        messageData.forEach((username, message) {
-          GeneralMessage messageObj = GeneralMessage(message, username);
-          messagesList.add(messageObj);
-          print(messagesList.length);
-        });
-      });
-    }
-    setState(() {});
   }
 
   @override
@@ -55,13 +39,26 @@ class _GeneralChatState extends State<GeneralChat> {
         data.forEach((timestamp, messageMap) {
           final messageData = Map<String, dynamic>.from(messageMap);
           messageData.forEach((username, message) {
-            GeneralMessage messageObj = GeneralMessage(message, username);
+            GeneralMessage messageObj =
+                GeneralMessage(message, username, timestamp);
             messagesList.add(messageObj);
           });
         });
         setState(() {}); // Refresh the UI with new messages
       }
     });
+  }
+
+  Future<void> updateMessage(String timeStamp, String updatedMessage) async {
+    DatabaseReference ref =
+        FirebaseDatabase.instance.ref("${widget.path}/${timeStamp}");
+    await ref.set({widget.name: updatedMessage});
+  }
+
+  Future<void> deleteMessage(String timeStamp) async {
+    DatabaseReference ref =
+        FirebaseDatabase.instance.ref("${widget.path}/${timeStamp}");
+    await ref.remove();
   }
 
   @override
@@ -77,17 +74,65 @@ class _GeneralChatState extends State<GeneralChat> {
             child: ListView.builder(
               itemCount: messagesList.length,
               itemBuilder: (context, index) => Container(
-                child: Row(
-                  children: [
-                    Text(
-                      messagesList[index].message!,
-                      style: TextStyle(fontSize: 14),
-                    ),
-                    Text(
-                      " -" + messagesList[index].sender!,
-                      style: TextStyle(fontSize: 8),
-                    ),
-                  ],
+                child: GestureDetector(
+                  onLongPress: () {
+                    _editMessageController.text = messagesList[index].message!;
+                    if (widget.name != messagesList[index].sender) {
+                      return;
+                    }
+                    showDialog(
+                      context: context,
+                      builder: (context) => Dialog(
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: _editMessageController,
+                            ),
+                            Row(
+                              children: [
+                                MaterialButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Cancel"),
+                                ),
+                                MaterialButton(
+                                  onPressed: () {
+                                    updateMessage(
+                                      messagesList[index].timStamp!,
+                                      _editMessageController.text,
+                                    );
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Update"),
+                                ),
+                                MaterialButton(
+                                  onPressed: () {
+                                    deleteMessage(
+                                        messagesList[index].timStamp!);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Delete"),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        messagesList[index].message!,
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      Text(
+                        " -" + messagesList[index].sender!,
+                        style: TextStyle(fontSize: 8),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -113,7 +158,8 @@ class _GeneralChatState extends State<GeneralChat> {
 }
 
 class GeneralMessage {
-  GeneralMessage(this.message, this.sender) {}
+  GeneralMessage(this.message, this.sender, this.timStamp) {}
   String? message;
   String? sender;
+  String? timStamp;
 }

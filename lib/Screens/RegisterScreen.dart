@@ -58,58 +58,156 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
-        children: [
-          TextField(
-            decoration: InputDecoration(hintText: "Email"),
-            onChanged: (emailText) {
-              email = emailText;
-            },
-          ),
-          TextField(
-            decoration: InputDecoration(
-              hintText: "Password",
-            ),
-            onChanged: (passwordText) {
-              password = passwordText;
-            },
-            keyboardType: TextInputType.number,
-          ),
-          TextField(
-            decoration: InputDecoration(hintText: "Name"),
-            onChanged: (nameText) {
-              name = nameText;
-            },
-          ),
-          TextField(
-            decoration: InputDecoration(hintText: "Mobile Number"),
-            onChanged: (mobileNumberText) {
-              mobileNumber = mobileNumberText;
-            },
-          ),
-          MaterialButton(
-            onPressed: () {
-              if (email.isNotEmpty &&
-                  password.isNotEmpty &&
-                  mobileNumber.isNotEmpty &&
-                  name.isNotEmpty) {
-                Register();
-              }
-            },
-            child: Text("Register"),
-          ),
-          MaterialButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LoginScreen(),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextFormField(
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                labelText: 'Name',
+                prefixIcon: Icon(Icons.person),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-              );
-            },
-            child: Text("Login"),
-          )
-        ],
+              ),
+              onChanged: (nameText) {
+                name = nameText;
+              },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your name';
+                }
+                // Add more email validation logic as needed
+                return null;
+              },
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                labelText: 'Email',
+                prefixIcon: Icon(Icons.email),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              onChanged: (emailText) {
+                email = emailText;
+              },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your email';
+                }
+                // Add more email validation logic as needed
+                return null;
+              },
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              obscureText: true,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                prefixIcon: Icon(Icons.lock),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your number';
+                }
+                // Add more password validation logic as needed
+                return null;
+              },
+              onChanged: (passwordText) {
+                password = passwordText;
+              },
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Number',
+                prefixIcon: Icon(Icons.phone),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your password';
+                }
+                // Add more password validation logic as needed
+                return null;
+              },
+              onChanged: (mobileNumberText) {
+                mobileNumber = mobileNumberText;
+              },
+            ),
+            SizedBox(height: 20),
+            Container(
+              width: 200,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFF0072ff),
+                    Color(0xFF00c6ff),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xFF00c6ff).withOpacity(0.6),
+                    blurRadius: 12,
+                    offset: Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    if (email.isNotEmpty &&
+                        password.isNotEmpty &&
+                        mobileNumber.isNotEmpty &&
+                        name.isNotEmpty) {
+                      Register();
+                    }
+                  },
+                  child: Center(
+                    child: Text(
+                      'Register',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              child: MaterialButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginScreen(),
+                    ),
+                  );
+                },
+                child: Text("Register User"),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

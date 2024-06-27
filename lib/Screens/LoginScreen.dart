@@ -59,41 +59,114 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          TextField(
-            decoration: InputDecoration(hintText: "Email"),
-            onChanged: (emailText) {
-              email = emailText;
-            },
-          ),
-          TextField(
-            decoration: InputDecoration(hintText: "Password"),
-            onChanged: (passwordText) {
-              password = passwordText;
-            },
-          ),
-          MaterialButton(
-            onPressed: () {
-              if (email.isNotEmpty && password.isNotEmpty) {
-                Login();
-              }
-            },
-            child: Text("Login"),
-          ),
-          MaterialButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RegisterScreen(),
+      appBar: AppBar(
+        title: Text("Login"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextFormField(
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                labelText: 'Email',
+                prefixIcon: Icon(Icons.email),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-              );
-            },
-            child: Text("Register User"),
-          )
-        ],
+              ),
+              onChanged: (emailText) {
+                email = emailText;
+              },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your email';
+                }
+                // Add more email validation logic as needed
+                return null;
+              },
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                prefixIcon: Icon(Icons.lock),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your password';
+                }
+                // Add more password validation logic as needed
+                return null;
+              },
+              onChanged: (passwordText) {
+                password = passwordText;
+              },
+            ),
+            SizedBox(height: 20),
+            Container(
+              width: 200,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFF0072ff),
+                    Color(0xFF00c6ff),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xFF00c6ff).withOpacity(0.6),
+                    blurRadius: 12,
+                    offset: Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    if (email.isNotEmpty && password.isNotEmpty) {
+                      Login();
+                    }
+                  },
+                  child: Center(
+                    child: Text(
+                      'LOGIN',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              child: MaterialButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RegisterScreen(),
+                    ),
+                  );
+                },
+                child: Text("Register User"),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
